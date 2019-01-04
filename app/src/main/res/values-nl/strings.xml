@@ -41,7 +41,6 @@
     <string name="action_rename_category">Categorie hernoemen</string>
     <string name="action_move_category">Verplaatsen naar categorieën</string>
     <string name="action_edit_cover">Omslag wijzigen</string>
-    <string name="action_show_unread">Ongelezen</string>
     <string name="action_show_downloaded">Gedownload</string>
     <string name="action_next_unread">Volgende ongelezen</string>
     <string name="action_start">Start</string>
@@ -142,7 +141,6 @@
 
 
       <string name="pref_download_directory">Downloadmap</string>
-    <string name="pref_download_slots">Gelijktijdige downloads</string>
     <string name="pref_download_only_over_wifi">Download alleen over Wi-Fi</string>
     <string name="custom_dir">Aangepaste map</string>
     <string name="last_read_chapter">Laatst gelezen hoofdstuk</string>
@@ -207,7 +205,6 @@
     <string name="manga_detail_tab">Info</string>
     <string name="description">Beschrijving</string>
     <string name="unknown">Onbekend</string>
-    <string name="add_to_library">Toevoegen aan bibliotheek</string>
     <string name="remove_from_library">Verwijderen uit bibliotheek</string>
     <string name="manga_info_author_label">Auteur</string>
     <string name="manga_info_artist_label">Artiest</string>
@@ -309,7 +306,6 @@
     <string name="pref_library_update_restriction_summary">Update alleen wanneer de voorwaarden zijn voldaan</string>
     <string name="wifi">Wi-Fi</string>
     <string name="charging">Aan het opladen</string>
-    <string name="pref_ask_update_manga_sync">Vraag om bevestiging alvorens te updaten</string>
     <string name="pref_theme">Thema</string>
     <string name="light_theme">Hoofdthema</string>
     <string name="pref_reader_navigation">Navigatie</string>
@@ -394,7 +390,6 @@ Zorg ook dat je ingelogd bent voor bronnen die dit vereisen alvorens je het teru
     <string name="choices_reset">Keuzes gereset</string>
     <string name="login_success">Login geslaagd</string>
     <string name="invalid_login">Login error</string>
-    <string name="share_text">Bekijk %1$s! op %2$s</string>
     <string name="shortcut_title">Titel van de snelkoppeling</string>
     <string name="confirm_update_manga_sync">Update het laatst gelezen hoofdstuk in de ingeschakelde services op %1$d?</string>
     <string name="licensed">Gelicenseerd</string>
@@ -415,4 +410,10 @@ Zorg ook dat je ingelogd bent voor bronnen die dit vereisen alvorens je het teru
 <string name="browse">Bladeren</string>
 
     <string name="channel_common">Algemeen</string>
+    <string name="label_migration">Bronmigratie</string>
+    <string name="label_extensions">Extensies</string>
+    <string name="label_extension_info">Informatie extensie</string>
+
+
+    <string name="custom_hint">hoeveelheid</string>
     </resources>

@@ -4,6 +4,7 @@ import eu.kanade.tachiyomi.network.GET
 import eu.kanade.tachiyomi.source.model.*
 import eu.kanade.tachiyomi.source.online.ParsedHttpSource
 import okhttp3.Headers
+import okhttp3.HttpUrl
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.nodes.Document
@@ -24,14 +25,9 @@ class Readmanga : ParsedHttpSource() {
 
     override val supportsLatest = true
 
-    override fun headersBuilder() = Headers.Builder().apply {
-        add("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64)")
-        add("Referer", baseUrl)
-    }
+    override fun popularMangaSelector() = "div.tile"
 
-    override fun popularMangaSelector() = "div.desc"
-
-    override fun latestUpdatesSelector() = "div.desc"
+    override fun latestUpdatesSelector() = "div.tile"
 
     override fun popularMangaRequest(page: Int): Request =
             GET("$baseUrl/list?sortType=rate&offset=${70 * (page - 1)}&max=70", headers)
@@ -41,6 +37,7 @@ class Readmanga : ParsedHttpSource() {
 
     override fun popularMangaFromElement(element: Element): SManga {
         val manga = SManga.create()
+        manga.thumbnail_url = element.select("img.lazy").first()?.attr("data-original")
         element.select("h3 > a").first().let {
             manga.setUrlWithoutDomain(it.attr("href"))
             manga.title = it.attr("title")
@@ -56,8 +53,25 @@ class Readmanga : ParsedHttpSource() {
     override fun latestUpdatesNextPageSelector() = "a.nextLink"
 
     override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request {
-        val genres = filters.filterIsInstance<Genre>().joinToString("&") { it.id + arrayOf("=", "=in", "=ex")[it.state] }
-        return GET("$baseUrl/search/advanced?q=$query&$genres", headers)
+        val url = HttpUrl.parse("$baseUrl/search/advanced")!!.newBuilder()
+        (if (filters.isEmpty()) getFilterList() else filters).forEach { filter ->
+            when (filter) {
+                is GenreList -> filter.state.forEach { genre ->
+                    if (genre.state != Filter.TriState.STATE_IGNORE) {
+                        url.addQueryParameter(genre.id, arrayOf("=", "=in", "=ex")[genre.state])
+                    }
+                }
+                is Category -> filter.state.forEach { category ->
+                    if (category.state != Filter.TriState.STATE_IGNORE) {
+                        url.addQueryParameter(category.id, arrayOf("=", "=in", "=ex")[category.state])
+                    }
+                }
+            }
+        }
+        if (!query.isEmpty()) {
+            url.addQueryParameter("q", query)
+        }
+        return GET(url.toString().replace("=%3D", "="), headers)
     }
 
     override fun searchMangaSelector() = popularMangaSelector()
@@ -65,7 +79,7 @@ class Readmanga : ParsedHttpSource() {
     override fun searchMangaFromElement(element: Element): SManga = popularMangaFromElement(element)
 
     // max 200 results
-    override fun searchMangaNextPageSelector() = null
+    override fun searchMangaNextPageSelector(): Nothing? = null
 
     override fun mangaDetailsParse(document: Document): SManga {
         val infoElement = document.select("div.leftContent").first()
@@ -90,20 +104,25 @@ class Readmanga : ParsedHttpSource() {
 
     override fun chapterFromElement(element: Element): SChapter {
         val urlElement = element.select("a").first()
+        val urlText = urlElement.text()
 
         val chapter = SChapter.create()
-        chapter.setUrlWithoutDomain(urlElement.attr("href") + "?mature=1")
-        chapter.name = urlElement.text().replace(" новое", "")
-        chapter.date_upload = element.select("td:eq(1)").first()?.text()?.let {
+        chapter.setUrlWithoutDomain(urlElement.attr("href") + "?mtr=1")
+        if (urlText.endsWith(" новое")) {
+            chapter.name = urlText.dropLast(6)
+        } else {
+            chapter.name = urlText
+        }
+        chapter.date_upload = element.select("td.hidden-xxs").last()?.text()?.let {
             SimpleDateFormat("dd/MM/yy", Locale.US).parse(it).time
         } ?: 0
         return chapter
     }
 
     override fun prepareNewChapter(chapter: SChapter, manga: SManga) {
-        val basic = Regex("""\s([0-9]+)(\s-\s)([0-9]+)\s*""")
-        val extra = Regex("""\s([0-9]+\sЭкстра)\s*""")
-        val single = Regex("""\sСингл\s*""")
+        val basic = Regex("""\s*([0-9]+)(\s-\s)([0-9]+)\s*""")
+        val extra = Regex("""\s*([0-9]+\sЭкстра)\s*""")
+        val single = Regex("""\s*Сингл\s*""")
         when {
             basic.containsMatchIn(chapter.name) -> {
                 basic.find(chapter.name)?.let {
@@ -132,7 +151,12 @@ class Readmanga : ParsedHttpSource() {
         var i = 0
         while (m.find()) {
             val urlParts = m.group().replace("[\"\']+".toRegex(), "").split(',')
-            pages.add(Page(i++, "", urlParts[1] + urlParts[0] + urlParts[2]))
+            val url = if (urlParts[1].isEmpty() && urlParts[2].startsWith("/static/")) {
+                baseUrl + urlParts[2]
+            } else {
+                urlParts[1] + urlParts[0] + urlParts[2]
+            }
+            pages.add(Page(i++, "", url))
         }
         return pages
     }
@@ -143,14 +167,41 @@ class Readmanga : ParsedHttpSource() {
 
     override fun imageUrlParse(document: Document) = ""
 
-    private class Genre(name: String, val id: String) : Filter.TriState(name)
+    override fun imageRequest(page: Page): Request {
+        val imgHeader = Headers.Builder().apply {
+            add("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64)")
+            add("Referer", baseUrl)
+        }.build()
+        return GET(page.imageUrl!!, imgHeader)
+    }
 
-    /* [...document.querySelectorAll("tr.advanced_option:nth-child(1) > td:nth-child(3) span.js-link")].map((el,i) => {
-    *  const onClick=el.getAttribute('onclick');const id=onClick.substr(31,onClick.length-33);
-    *  return `Genre("${el.textContent.trim()}", "${id}")` }).join(',\n')
+    private class Genre(name: String, val id: String) : Filter.TriState(name)
+    private class GenreList(genres: List<Genre>) : Filter.Group<Genre>("Genres", genres)
+    private class Category(categories: List<Genre>) : Filter.Group<Genre>("Category", categories)
+
+    /* [...document.querySelectorAll("tr.advanced_option:nth-child(1) > td:nth-child(3) span.js-link")]
+    *  .map(el => `Genre("${el.textContent.trim()}", $"{el.getAttribute('onclick')
+    *  .substr(31,el.getAttribute('onclick').length-33)"})`).join(',\n')
     *  on http://readmanga.me/search/advanced
     */
     override fun getFilterList() = FilterList(
+            Category(getCategoryList()),
+            GenreList(getGenreList())
+    )
+
+    private fun getCategoryList() = listOf(
+            Genre("В цвете", "el_7290"),
+            Genre("Веб", "el_2160"),
+            Genre("Выпуск приостановлен", "el_8033"),
+            Genre("Ёнкома", "el_2161"),
+            Genre("Комикс западный", "el_3515"),
+            Genre("Манхва", "el_3001"),
+            Genre("Маньхуа", "el_3002"),
+            Genre("Ранобэ", "el_8575"),
+            Genre("Сборник", "el_2157")
+    )
+
+    private fun getGenreList() = listOf(
             Genre("арт", "el_5685"),
             Genre("боевик", "el_2155"),
             Genre("боевые искусства", "el_2143"),

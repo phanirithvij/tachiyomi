@@ -31,13 +31,13 @@ object PreferenceKeys {
 
     const val imageScaleType = "pref_image_scale_type_key"
 
-    const val imageDecoder = "image_decoder"
-
     const val zoomStart = "pref_zoom_start_key"
 
     const val readerTheme = "pref_reader_theme_key"
 
     const val cropBorders = "crop_borders"
+
+    const val cropBordersWebtoon = "crop_borders_webtoon"
 
     const val readWithTapping = "reader_tap"
 
@@ -52,8 +52,6 @@ object PreferenceKeys {
     const val updateOnlyNonCompleted = "pref_update_only_non_completed_key"
 
     const val autoUpdateTrack = "pref_auto_update_manga_sync_key"
-
-    const val askUpdateTrack = "pref_ask_update_manga_sync_key"
 
     const val lastUsedCatalogueSource = "last_catalogue_source"
 

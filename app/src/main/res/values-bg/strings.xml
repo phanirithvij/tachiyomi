@@ -45,7 +45,6 @@
     <string name="action_edit_cover">Промени корицата</string>
     <string name="action_sort_up">Сортирай по възходящ ред</string>
     <string name="action_sort_down">Сортирай по низходящ ред</string>
-    <string name="action_show_unread">Непрочетени</string>
     <string name="action_show_downloaded">Изтеглени</string>
     <string name="action_next_unread">Следваща непрочетена</string>
     <string name="action_start">Старт</string>
@@ -108,7 +107,6 @@
     <string name="charging">На зарядно устройство</string>
     <string name="pref_update_only_non_completed">Обновявай само текуща манга</string>
     <string name="pref_auto_update_manga_sync">Синхронизирай глави след прочитане</string>
-    <string name="pref_ask_update_manga_sync">Искане за потвърждение преди обновяване</string>
     <string name="pref_theme">Тема на приложението</string>
     <string name="light_theme">Основна тема</string>
     <string name="dark_theme">Тъмна тема</string>
@@ -162,7 +160,6 @@
 
       <!-- Downloads section -->
     <string name="pref_download_directory">Директория на изтеглянията</string>
-    <string name="pref_download_slots">Едновременно теглене</string>
     <string name="pref_download_only_over_wifi">Тегли само с Wi-Fi</string>
     <string name="pref_remove_after_marked_as_read">Изтрий, щом маркирам като прочетено</string>
     <string name="pref_remove_after_read">Изтривай след прочитане</string>
@@ -233,7 +230,6 @@
     <string name="ongoing">Излизаща</string>
     <string name="unknown">Неизвестно</string>
     <string name="licensed">Лицензирана</string>
-    <string name="add_to_library">Добави към библиотеката</string>
     <string name="remove_from_library">Премахни от библиотеката</string>
     <string name="manga_info_author_label">Автор</string>
     <string name="manga_info_artist_label">Артист</string>
@@ -241,7 +237,6 @@
     <string name="manga_info_status_label">Статус</string>
     <string name="manga_info_source_label">Източник</string>
     <string name="manga_info_genres_label">Жанрове</string>
-    <string name="share_text">Проверете %1$s! в %2$s</string>
     <string name="circular_icon">Кръгла икона</string>
     <string name="rounded_icon">Заоблена икона</string>
     <string name="square_icon">Квадратна икона</string>
@@ -279,7 +274,7 @@
     <string name="completed">Завършена</string>
     <string name="dropped">Изоставена</string>
     <string name="on_hold">На заден план</string>
-    <string name="plan_to_read">Планирам да чета</string>
+    <string name="plan_to_read">За четене</string>
     <string name="score">Оценка</string>
     <string name="title">Заглавие</string>
     <string name="status">Статус</string>
@@ -312,8 +307,7 @@
     <string name="chapter_subtitle">Глава %1$s</string>
     <string name="no_next_chapter">Не беше намерена следваща глава</string>
     <string name="no_previous_chapter">Не беше намерена предходна глава</string>
-    <string name="decode_image_error">Изображението не можа да бъде заредено.
-Опитайте да смените декодера на изображението или някоя от изброените опции</string>
+    <string name="decode_image_error">Неуспешно декодиране на изображението</string>
     <string name="confirm_update_manga_sync">Обнови последната прочетена глава в %1$d?</string>
     <string name="confirm_set_image_as_cover">Желаете ли да използвате това изображение за корица?</string>
     <string name="viewer_for_this_series">Посока на четене за поредицата</string>
@@ -510,4 +504,24 @@
     <string name="copy">Копирай</string>
     <string name="migrating">Мигриране…</string>
 
+    <string name="pager_viewer">Страници</string>
+    <string name="source_not_installed">Източникът не е инсталиран: %1$s</string>
+
+    <string name="repeating">Препрочитане</string>
+    <string name="track_status">Статус</string>
+    <string name="track_start_date">Започната на</string>
+    <string name="track_type">Тип</string>
+    <string name="track_author">Автор</string>
+    <string name="url_not_set">Мангата няма връзка с акаунта, молим отново да натиснете заглавието и да изберете мангата</string>
+
+    <string name="transition_finished">Завършени:</string>
+    <string name="transition_current">"В момента: "</string>
+    <string name="transition_next">Следва:</string>
+    <string name="transition_previous">"Предходна: "</string>
+    <string name="transition_no_next">Няма повече глави</string>
+    <string name="transition_no_previous">Няма предходна глава</string>
+    <string name="transition_pages_loading">Зареждане на страниците…</string>
+    <string name="transition_pages_error">"Неуспешно зареждане на страници: %1$s "</string>
+
+    <string name="darkblue_theme">Тъмно син</string>
     </resources>

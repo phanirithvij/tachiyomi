@@ -261,7 +261,11 @@ class MangaInfoController : NucleusController<MangaInfoPresenter>(),
     }
 
     fun setLastUpdateDate(date: Date) {
-        manga_last_update?.text = DateFormat.getDateInstance(DateFormat.SHORT).format(date)
+        if (date.time != 0L) {
+            manga_last_update?.text = DateFormat.getDateInstance(DateFormat.SHORT).format(date)
+        } else {
+            manga_last_update?.text = resources?.getString(R.string.unknown)
+        }
     }
 
     /**
@@ -307,10 +311,9 @@ class MangaInfoController : NucleusController<MangaInfoPresenter>(),
         val source = presenter.source as? HttpSource ?: return
         try {
             val url = source.mangaDetailsRequest(presenter.manga).url().toString()
-            val title = presenter.manga.title
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text, title, url))
+                putExtra(Intent.EXTRA_TEXT, url)
             }
             startActivity(Intent.createChooser(intent, context.getString(R.string.action_share)))
         } catch (e: Exception) {
@@ -352,8 +355,9 @@ class MangaInfoController : NucleusController<MangaInfoPresenter>(),
     /**
      * Update swipe refresh to start showing refresh in progress spinner.
      */
-    fun onFetchMangaError() {
+    fun onFetchMangaError(error: Throwable) {
         setRefreshing(false)
+        activity?.toast(error.message)
     }
 
     /**

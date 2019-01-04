@@ -58,7 +58,6 @@
     <string name="action_edit_cover">Edit the cover picture</string>
     <string name="action_sort_up">Sort up</string>
     <string name="action_sort_down">Sort down</string>
-    <string name="action_show_unread">Unread</string>
     <string name="action_show_downloaded">Downloaded</string>
     <string name="action_next_unread">Next unread</string>
     <string name="action_start">Start</string>
@@ -136,11 +135,11 @@
     <string name="charging">Charging</string>
     <string name="pref_update_only_non_completed">Only update ongoing manga</string>
     <string name="pref_auto_update_manga_sync">Sync chapters after reading</string>
-    <string name="pref_ask_update_manga_sync">Confirm before updating</string>
     <string name="pref_theme">Application theme</string>
     <string name="light_theme">Main theme</string>
     <string name="dark_theme">Dark theme</string>
     <string name="amoled_theme">AMOLED theme</string>
+    <string name="darkblue_theme">Dark blue</string>
     <string name="pref_start_screen">Start screen</string>
     <string name="pref_language">Language</string>
     <string name="system_default">System default</string>
@@ -190,6 +189,7 @@
     <string name="right_to_left_viewer">Right to left</string>
     <string name="vertical_viewer">Vertical</string>
     <string name="webtoon_viewer">Webtoon</string>
+    <string name="pager_viewer">Pager</string>
     <string name="pref_image_decoder">Image decoder</string>
     <string name="pref_image_scale_type">Scale type</string>
     <string name="scale_type_fit_screen">Fit screen</string>
@@ -338,7 +338,6 @@
     <string name="manga_info_status_label">Status</string>
     <string name="manga_info_source_label">Source</string>
     <string name="manga_info_genres_label">Genres</string>
-    <string name="share_text">Check out %1$s! at %2$s</string>
     <string name="circular_icon">Circular icon</string>
     <string name="rounded_icon">Rounded icon</string>
     <string name="square_icon">Square icon</string>
@@ -349,6 +348,7 @@
     <string name="icon_creation_fail">Failed to create shortcut!</string>
     <string name="delete_downloads_for_manga">Delete downloaded chapters?</string>
     <string name="copied_to_clipboard">%1$s copied to clipboard</string>
+    <string name="source_not_installed">Source not installed: %1$s</string>
 
     <!-- Manga chapters fragment -->
     <string name="manga_chapters_tab">Chapters</string>
@@ -384,6 +384,7 @@
     <string name="dropped">Dropped</string>
     <string name="on_hold">On hold</string>
     <string name="plan_to_read">Plan to read</string>
+    <string name="repeating">Re-reading</string>
     <string name="score">Score</string>
     <string name="title">Title</string>
     <string name="status">Status</string>
@@ -420,10 +421,18 @@
     <string name="chapter_subtitle">Chapter %1$s</string>
     <string name="no_next_chapter">Next chapter not found</string>
     <string name="no_previous_chapter">Previous chapter not found</string>
-    <string name="decode_image_error">Image could not be loaded.\nTry changing the image decoder or with one of the options below</string>
+    <string name="decode_image_error">The image could not be decoded</string>
     <string name="confirm_update_manga_sync">Update last chapter read in enabled services to %1$d?</string>
     <string name="confirm_set_image_as_cover">Do you want to set this image as the cover?</string>
     <string name="viewer_for_this_series">Viewer for this series</string>
+    <string name="transition_finished">Finished:</string>
+    <string name="transition_current">Current:</string>
+    <string name="transition_next">Next:</string>
+    <string name="transition_previous">Previous:</string>
+    <string name="transition_no_next">There\'s no next chapter</string>
+    <string name="transition_no_previous">There\'s no previous chapter</string>
+    <string name="transition_pages_loading">Loading pages…</string>
+    <string name="transition_pages_error">Failed to load pages: %1$s</string>
 
     <!-- Recent manga fragment -->
     <string name="recent_manga_source">%1$s - Ch.%2$s</string>
